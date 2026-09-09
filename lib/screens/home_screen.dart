@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'chat_screen.dart';
 import 'profile_edit_screen.dart';
 import 'account_settings_screen.dart';
@@ -593,7 +594,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildTopButton(const Icon(Icons.remove_red_eye_outlined, size: 22, color: Color(0xFF101112))),
+                        GestureDetector(
+                          onTap: () async {
+                            final uid = FirebaseAuth.instance.currentUser?.uid;
+                            if (uid == null) return;
+
+                            final url = Uri.parse('https://eng-amar.com/info/index.php?id=$uid');
+
+                            try {
+                              final launched = await launchUrl(
+                                url,
+                                mode: LaunchMode.externalApplication,
+                              );
+
+                              if (!launched && mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Could not open the link')),
+                                );
+                              }
+                            } catch (e) {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Could not open the link: $e')),
+                                );
+                              }
+                            }
+                          },
+                          child: _buildTopButton(const Icon(Icons.remove_red_eye_outlined, size: 22, color: Color(0xFF101112))),
+                        ),
                         const Text('Home', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Color(0xFF101112))),
                         _buildTopButton(const FaIcon(FontAwesomeIcons.paperPlane, size: 18, color: Color(0xFF101112)), offset: const Offset(-1, 0)),
                       ],

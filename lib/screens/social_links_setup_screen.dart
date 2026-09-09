@@ -9,13 +9,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'home_screen.dart';
 
-// موديل اللينكات اللي هنستخدمه في الصفحة دي
 class UserLink {
   final String id;
   final String title;
   final String username;
-  final dynamic icon; // ممكن يكون IconData أو File
-  final String? iconUrl; // رابط الصورة لو مرفوعة
+  final dynamic icon;
+  final String? iconUrl; 
   final Color bgColor;
   final Color textColor;
   bool isActive;

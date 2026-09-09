@@ -6,7 +6,7 @@ import '../screens/home_screen.dart';
 import '../screens/inbox_screen.dart';
 import '../screens/social_edit_screen.dart';
 import '../screens/requests_screen.dart';
-import '../screens/credit_screen.dart';
+import '../screens/account_settings_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -37,7 +37,6 @@ class BottomNavBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Home
                 _buildNavItem(
                   context,
                   icon: FontAwesomeIcons.house,
@@ -51,8 +50,6 @@ class BottomNavBar extends StatelessWidget {
                     }
                   },
                 ),
-
-                // Inbox
                 _buildNavItem(
                   context,
                   icon: FontAwesomeIcons.comment,
@@ -66,8 +63,6 @@ class BottomNavBar extends StatelessWidget {
                     }
                   },
                 ),
-
-                // Center Plus Button
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -91,8 +86,6 @@ class BottomNavBar extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // Requests
                 _buildNavItem(
                   context,
                   icon: FontAwesomeIcons.bell,
@@ -106,17 +99,15 @@ class BottomNavBar extends StatelessWidget {
                     }
                   },
                 ),
-
-                // Credit / Wallet
                 _buildNavItem(
                   context,
-                  icon: FontAwesomeIcons.wallet,
+                  icon: FontAwesomeIcons.gear,
                   isActive: currentIndex == 4,
                   onTap: () {
                     if (currentIndex != 4) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const CreditScreen()),
+                        MaterialPageRoute(builder: (_) => const AccountSettingsScreen()),
                       );
                     }
                   },
