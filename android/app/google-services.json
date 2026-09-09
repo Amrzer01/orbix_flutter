@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394506446005",
+    "project_id": "orbix-flutter-app",
+    "storage_bucket": "orbix-flutter-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394506446005:android:642ad39e0a36b6fb60cafc",
+        "android_client_info": {
+          "package_name": "com.orbix.orbix_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARXMxZ5bmfwMXi8G0RlUCsjRWWJrjXSco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
