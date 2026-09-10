@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
@@ -77,17 +77,35 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('token');
+  final seenOnboarding = prefs.getBool('seen_onboarding') ?? false;
 
-  runApp(MyApp(isLoggedIn: token != null && token.isNotEmpty));
+  runApp(MyApp(
+    isLoggedIn: token != null && token.isNotEmpty,
+    seenOnboarding: seenOnboarding,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
+  final bool seenOnboarding;
 
-  const MyApp({super.key, required this.isLoggedIn});
+  const MyApp({
+    super.key,
+    required this.isLoggedIn,
+    required this.seenOnboarding,
+  });
 
   @override
   Widget build(BuildContext context) {
+    Widget initialScreen;
+    if (!seenOnboarding) {
+      initialScreen = const OnboardingScreen();
+    } else if (isLoggedIn) {
+      initialScreen = const HomeScreen();
+    } else {
+      initialScreen = const LoginScreen();
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Orbix',
@@ -95,7 +113,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFF4F5F7),
         textTheme: GoogleFonts.plusJakartaSansTextTheme(),
       ),
-      home: isLoggedIn ? const HomeScreen() : const LoginScreen(),
+      home: initialScreen,
     );
   }
 }
