@@ -67,7 +67,7 @@ void main() async {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            icon: '@mipmap/ic_launcher',
+            icon: 'ic_notification',
             color: const Color(0xFFC8F331),
           ),
         ),

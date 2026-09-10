@@ -150,46 +150,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   final item = _items[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 28),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Spacer(),
-                        // Illustration Container
-                        Container(
-                          height: 280,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8F9FA),
-                            borderRadius: BorderRadius.circular(32),
-                            border: Border.all(
-                              color: const Color(0xFFE9ECEF),
-                              width: 1.5,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.03),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Illustration Container
+                            Container(
+                              height: 280,
+                              width: double.infinity,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // 2D Line Art Vector Illustration
+                                  _buildIllustrationWidget(item.type),
+                                ],
                               ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(32),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                // Background pattern grid lines
-                                CustomPaint(
-                                  size: Size.infinite,
-                                  painter: VectorGridPainter(),
-                                ),
-                                // 2D Line Art Vector Illustration
-                                _buildIllustrationWidget(item.type),
-                              ],
                             ),
-                          ),
-                        ),
-                        const Spacer(),
+                            const SizedBox(height: 36),
                         // Badge Tag
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
@@ -236,7 +214,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                      ],
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -245,7 +225,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             // Bottom Navigation Section (Page Indicator + Action Button)
             Padding(
-              padding: const EdgeInsets.only(left: 28, right: 28, bottom: 32, top: 12),
+              padding: const EdgeInsets.only(left: 28, right: 28, bottom: 16, top: 12),
               child: Column(
                 children: [
                   // Page Indicators
@@ -584,6 +564,18 @@ class SocialHubIllustration extends StatelessWidget {
           left: 45,
           child: _buildSocialNode(FontAwesomeIcons.phone, const Color(0xFF34B7F1)),
         ),
+        // Satellite Social Node 5: X (Mid Left)
+        Positioned(
+          top: 85,
+          left: 10,
+          child: _buildSocialNode(FontAwesomeIcons.xTwitter, const Color(0xFF000000)),
+        ),
+        // Satellite Social Node 6: YouTube (Mid Right)
+        Positioned(
+          top: 90,
+          right: 15,
+          child: _buildSocialNode(FontAwesomeIcons.youtube, const Color(0xFFFF0000)),
+        ),
       ],
     );
   }
@@ -634,7 +626,6 @@ class NetworkingIllustration extends StatelessWidget {
         // Central Card User
         Container(
           width: 170,
-          height: 120,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -649,6 +640,7 @@ class NetworkingIllustration extends StatelessWidget {
             ],
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
@@ -759,26 +751,7 @@ class NetworkingIllustration extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // Custom Painters for 2D Vector Backgrounds
 // -----------------------------------------------------------------------------
-class VectorGridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFFE9ECEF).withValues(alpha: 0.6)
-      ..strokeWidth = 1.0
-      ..style = PaintingStyle.stroke;
-
-    const step = 28.0;
-    for (double x = 0; x < size.width; x += step) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
-    }
-    for (double y = 0; y < size.height; y += step) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
+// Removed VectorGridPainter
 
 class WaveRingsPainter extends CustomPainter {
   @override
@@ -812,6 +785,8 @@ class SocialNetworkPainter extends CustomPainter {
     final topL = Offset(size.width * 0.22, size.height * 0.27);
     final botR = Offset(size.width * 0.75, size.height * 0.78);
     final botL = Offset(size.width * 0.22, size.height * 0.78);
+    final midR = Offset(size.width * 0.85, size.height * 0.56);
+    final midL = Offset(size.width * 0.13, size.height * 0.53);
 
     final linePaint = Paint()
       ..color = const Color(0xFF101112)
@@ -827,6 +802,8 @@ class SocialNetworkPainter extends CustomPainter {
     canvas.drawLine(center, topL, neonDashPaint);
     canvas.drawLine(center, botR, linePaint);
     canvas.drawLine(center, botL, neonDashPaint);
+    canvas.drawLine(center, midR, neonDashPaint);
+    canvas.drawLine(center, midL, linePaint);
   }
 
   @override
